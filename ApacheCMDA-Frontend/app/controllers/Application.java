@@ -47,9 +47,8 @@ public class Application extends Controller {
 	    	ObjectNode jsonData = Json.newObject();
 	    	jsonData.put("email", email);
 	    	jsonData.put("password", password);
-	    	System.out.println(email + "***************" + password);
 	    	// POST Climate Service JSON data
-	    	JsonNode response = APICall.postAPI(Constants.URL_HOST + Constants.CMU_BACKEND_PORT 
+	    	JsonNode response = APICall.postAPI(Constants.NEW_BACKEND 
 	    				+ Constants.IS_USER_VALID, jsonData);
 	        if (response.get("success") == null) {
 	          return "Invalid user or password";
@@ -79,9 +78,7 @@ public class Application extends Controller {
 	
 	public static Result authenticate() {
 		Form<Login> loginForm = Form.form(Login.class).bindFromRequest();
-		System.out.println("*********1");
 	    if (loginForm.hasErrors()) {
-	    	System.out.println("*********2");
 	        return badRequest(login.render(loginForm));
 	    } else {
 	        session().clear();
@@ -129,7 +126,7 @@ public class Application extends Controller {
 			jsonData.put("researchFields", nu.get().getResearchFields());
 			jsonData.put("highestDegree", nu.get().getHighestDegree());
 			
-			JsonNode response = APICall.postAPI(Constants.URL_HOST + Constants.CMU_BACKEND_PORT 
+			JsonNode response = APICall.postAPI(Constants.NEW_BACKEND 
 					+ Constants.ADD_USER, jsonData);
 
 			// flash the response message
@@ -156,7 +153,7 @@ public class Application extends Controller {
 		JsonNode response = null;
 		try {
 			jsonData.put("email", email);
-			response = APICall.postAPI(Constants.URL_HOST + Constants.CMU_BACKEND_PORT 
+			response = APICall.postAPI(Constants.NEW_BACKEND 
 					+ Constants.IS_EMAIL_EXISTED, jsonData);
 			Application.flashMsg(response);
 		}catch (IllegalStateException e) {
